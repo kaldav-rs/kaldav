@@ -3,7 +3,7 @@ members = [".", "derive"]
 
 [package]
 name = "kaldav"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Sanpi <sanpi@homecomputing.fr>"]
 edition = "2021"
 description = "Caldav client"
