@@ -2,7 +2,7 @@
 name = "kaldav-derive"
 version = "0.2.0"
 authors = ["Sanpi <sanpi@homecomputing.fr>"]
-edition = "2021"
+edition = "2024"
 description = "Proc macro for kaldav crate"
 license = "MIT"
 
