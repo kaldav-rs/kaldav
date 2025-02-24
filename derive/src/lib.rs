@@ -14,7 +14,7 @@ fn impl_macro(ast: &syn::DeriveInput) -> syn::Result<proc_macro2::TokenStream> {
             return Err(syn::Error::new_spanned(
                 ast,
                 "this derive macro only works on structs",
-            ))
+            ));
         }
     };
 
