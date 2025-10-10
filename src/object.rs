@@ -74,6 +74,7 @@ impl crate::Requestable for Object {
         self.auth = auth;
     }
 }
+
 #[cfg(test)]
 mod test {
     #[test]

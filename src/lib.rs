@@ -34,6 +34,13 @@ pub trait Requestable {
         self.request("GET", href, None, None)
     }
 
+    fn put<S>(&self, href: S, body: Option<&str>) -> Result<String>
+    where
+        S: Into<String>,
+    {
+        self.request("PUT", href, body, None)
+    }
+
     fn propfind<S>(&self, href: S, body: &str) -> Result<String>
     where
         S: Into<String>,
@@ -84,10 +91,7 @@ pub trait Requestable {
         if response.is_success() {
             Ok(response.text()?)
         } else {
-            Err(Error::new(format!(
-                "{method} {href}: {}",
-                response.status()
-            )))
+            Err(Error::new(method, &href, response))
         }
     }
 }
