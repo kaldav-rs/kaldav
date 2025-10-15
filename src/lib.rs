@@ -190,21 +190,25 @@ pub trait Children: Requestable + Xmlable {
         let keys = Self::xml(response, key_xpath);
 
         for key in keys {
-            let xpath = value_xpath.replace("{}", key.as_str());
+            let xkey = key.replace("\'", "&apos;");
+
+            let xpath = value_xpath.replace("{}", xkey.as_str());
             let values = Self::xml(response, xpath.as_str());
 
             let mut params = BTreeMap::new();
             for (param_name, param_xpath) in &params_xpath {
-                let xpath = param_xpath.replace("{}", key.as_str());
+                let xpath = param_xpath.replace("{}", xkey.as_str());
                 if let Some(param) = Self::xml(response, &xpath).first() {
                     params.insert(param_name.to_string(), param.clone());
                 }
             }
 
-            let mut element = C::new(self.append_host(values[0].clone()), &params);
-            element.set_auth(self.auth());
+            if let Some(value) = values.first() {
+                let mut element = C::new(self.append_host(value.clone()), &params);
+                element.set_auth(self.auth());
 
-            map.insert(key.to_string(), element);
+                map.insert(key.to_string(), element);
+            }
         }
 
         map
