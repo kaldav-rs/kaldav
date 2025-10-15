@@ -8,6 +8,7 @@ authors = ["Sanpi <sanpi@homecomputing.fr>"]
 edition = "2024"
 description = "Caldav client"
 license = "MIT"
+repository = "https://github.com/kaldav-rs/kaldav"
 
 [dependencies]
 ikal = "0.4"
