@@ -29,7 +29,8 @@ features = ["clock", "std"]
 
 [dependencies.attohttpc]
 version = "0.30"
-features = ["basic-auth"]
+default-features = false
+features = ["basic-auth", "compress"]
 
 [dependencies.uuid]
 version = "1.18"
@@ -43,3 +44,8 @@ httpmock = "0.8"
 [dev-dependencies.clap]
 version = "4.0"
 features = ["derive"]
+
+[features]
+default = ["native-tls"]
+native-tls = ["attohttpc/native-tls"]
+rustls = ["attohttpc/tls-rustls"]
