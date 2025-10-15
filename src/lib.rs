@@ -1,6 +1,7 @@
 mod calendar;
 mod client;
 mod home;
+mod method;
 mod object;
 mod principal;
 mod result;
@@ -8,6 +9,7 @@ mod result;
 pub use calendar::*;
 pub use client::*;
 pub use home::*;
+pub use method::Method;
 pub use object::*;
 pub use principal::*;
 pub use result::*;
@@ -31,21 +33,21 @@ pub trait Requestable {
     where
         S: Into<String>,
     {
-        self.request("GET", href, None, None)
+        self.request(Method::GET, href, None, None)
     }
 
     fn put<S>(&self, href: S, body: Option<&str>) -> Result<String>
     where
         S: Into<String>,
     {
-        self.request("PUT", href, body, None)
+        self.request(Method::PUT, href, body, None)
     }
 
     fn propfind<S>(&self, href: S, body: &str) -> Result<String>
     where
         S: Into<String>,
     {
-        self.request("PROPFIND", href, Some(body), None)
+        self.request(Method::PROPFIND, href, Some(body), None)
     }
 
     fn report<S>(&self, href: S, body: &str) -> Result<String>
@@ -56,12 +58,12 @@ pub trait Requestable {
 
         headers.insert("Depth", "1");
 
-        self.request("REPORT", href, Some(body), Some(headers))
+        self.request(Method::REPORT, href, Some(body), Some(headers))
     }
 
     fn request<S>(
         &self,
-        method: &str,
+        method: crate::Method,
         href: S,
         body: Option<&str>,
         headers: Option<BTreeMap<&'static str, &'static str>>,
@@ -71,7 +73,7 @@ pub trait Requestable {
     {
         let href = href.into();
         let mut request = attohttpc::RequestBuilder::new(
-            attohttpc::Method::from_bytes(method.as_bytes()).unwrap(),
+            attohttpc::Method::from_bytes(method.to_string().as_bytes()).unwrap(),
             &href,
         )
         .text(body.unwrap_or_default());
