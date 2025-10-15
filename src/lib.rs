@@ -1,3 +1,5 @@
+pub mod elements;
+
 mod calendar;
 mod client;
 mod home;
@@ -15,8 +17,9 @@ pub use principal::*;
 pub use result::*;
 
 pub use ikal as ical;
+pub use kaldav_derive::filter;
 
-use kaldav_derive::*;
+use kaldav_derive::Object;
 use std::collections::BTreeMap;
 
 #[derive(Clone, Debug)]
@@ -349,11 +352,7 @@ mod test {
     <d:prop>
         <d:resourcetype />
     </d:prop>
-    <c:filter>
-        <c:comp-filter name="VCALENDAR">
-            <c:comp-filter name="VEVENT" />
-        </c:comp-filter>
-    </c:filter>
+    <c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT" /></c:comp-filter></c:filter>
 </c:calendar-query>
 "#);
 
@@ -403,11 +402,7 @@ END:VCALENDAR\r
     <d:prop>
         <d:resourcetype />
     </d:prop>
-    <c:filter>
-        <c:comp-filter name="VCALENDAR">
-            <c:comp-filter name="VTODO" />
-        </c:comp-filter>
-    </c:filter>
+    <c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VTODO" /></c:comp-filter></c:filter>
 </c:calendar-query>
 "#);
 
@@ -455,15 +450,8 @@ END:VCALENDAR\r
     <d:prop>
         <d:resourcetype />
     </d:prop>
-    <c:filter>
-        <c:comp-filter name="VCALENDAR">
-            <c:comp-filter name="VEVENT">
-                <c:time-range start="20231028T000000Z" end="+infinity"/>
-            </c:comp-filter>
-        </c:comp-filter>
-    </c:filter>
-</c:calendar-query>"#
-                );
+    <c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT"><c:time-range start="20231028T000000Z" end="+infinity" /></c:comp-filter></c:comp-filter></c:filter>
+</c:calendar-query>"#);
 
             then.status(207)
                 .body(r#"

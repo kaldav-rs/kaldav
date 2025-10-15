@@ -45,11 +45,7 @@ impl Calendar {
     <d:prop>
         <d:resourcetype />
     </d:prop>
-    <c:filter>
-        <c:comp-filter name="VCALENDAR">
-            {filter}
-        </c:comp-filter>
-    </c:filter>
+    <c:filter><c:comp-filter name="VCALENDAR">{filter}</c:comp-filter></c:filter>
 </c:calendar-query>
 "#
         );
@@ -57,24 +53,11 @@ impl Calendar {
         self.report(&self.url, &body)
     }
 
-    pub fn search<Tz>(
+    pub fn search(
         &self,
-        start: Option<chrono::DateTime<Tz>>,
-        end: Option<chrono::DateTime<Tz>>,
-    ) -> crate::Result<crate::object::Iterator>
-    where
-        Tz: chrono::TimeZone,
-        Tz::Offset: std::fmt::Display,
-    {
-        let date_format = "%Y%m%dT%H%M%SZ";
-
-        let start = start
-            .map(|x| x.naive_utc().format(date_format).to_string())
-            .unwrap_or_else(|| "-infinity".to_string());
-
-        let end = end
-            .map(|x| x.naive_utc().format(date_format).to_string())
-            .unwrap_or_else(|| "+infinity".to_string());
+        filter: &crate::elements::Filter,
+    ) -> crate::Result<crate::object::Iterator> {
+        use webdav::ToXml as _;
 
         let body = format!(
             r#"
@@ -82,14 +65,9 @@ impl Calendar {
     <d:prop>
         <d:resourcetype />
     </d:prop>
-    <c:filter>
-        <c:comp-filter name="VCALENDAR">
-            <c:comp-filter name="VEVENT">
-                <c:time-range start="{start}" end="{end}"/>
-            </c:comp-filter>
-        </c:comp-filter>
-    </c:filter>
-</c:calendar-query>"#
+    {}
+</c:calendar-query>"#,
+            filter.to_xml(),
         );
 
         let response = self.report(&self.url, &body)?;
@@ -150,7 +128,19 @@ mod test {
             .and_hms_opt(0, 0, 0)
             .unwrap()
             .and_utc();
-        let events = calendar.search(Some(start), None)?;
+
+        let filter = crate::filter! {
+            CompFilter::new("VCALENDAR") {
+                CompFilter::new("VEVENT") {
+                    time_range: TimeRange {
+                        start: Some(start),
+                        end: None,
+                    }
+                }
+            }
+        };
+
+        let events = calendar.search(&filter)?;
         assert_eq!(events.len(), 1);
 
         Ok(())
