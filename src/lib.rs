@@ -32,6 +32,14 @@ pub trait Requestable {
     fn auth(&self) -> Option<Authorization>;
     fn set_auth(&mut self, auth: Option<Authorization>);
 
+    fn delete<S>(&self, href: S) -> Result
+    where
+        S: Into<String>,
+    {
+        self.request(Method::DELETE, href, None, None)
+            .map(|_| ())
+    }
+
     fn get<S>(&self, href: S) -> Result<String>
     where
         S: Into<String>,

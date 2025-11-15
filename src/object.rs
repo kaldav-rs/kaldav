@@ -47,6 +47,12 @@ pub struct Object {
     auth: Option<crate::Authorization>,
 }
 
+impl Object {
+    pub fn delete(&self) -> crate::Result {
+        crate::Requestable::delete(self, &self.url)
+    }
+}
+
 impl crate::Children for Object {
     fn new<S>(url: S, _: &std::collections::BTreeMap<String, String>) -> Self
     where
