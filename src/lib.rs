@@ -39,6 +39,14 @@ pub trait Requestable {
         self.request(Method::GET, href, None, None)
     }
 
+    fn mkcalendar<S>(&self, href: S, body: &str) -> Result
+    where
+        S: Into<String>,
+    {
+        self.request(Method::MKCALENDAR, href, Some(body), None)
+            .map(|_| ())
+    }
+
     fn put<S>(&self, href: S, body: Option<&str>) -> Result<String>
     where
         S: Into<String>,
@@ -471,6 +479,52 @@ END:VCALENDAR\r
     </d:response>
 </d:multistatus>
 "#);
+        });
+
+        server.mock(|when, then| {
+            when.path("/calendars/johndoe/")
+                //.method("MKCALENDAR")
+                .body(
+                    format!(r#"
+<?xml version="1.0" encoding="utf-8" ?>
+<c:mkcalendar xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+    <d:set>
+        <d:prop>
+            <d:displayname>Lisa's Events</d:displayname>
+            <c:calendar-description>Calendar restricted to events.</c:calendar-description>
+            <c:supported-calendar-component-set>
+<c:comp name="VEVENT"/>
+</c:supported-calendar-component-set>
+            <c:calendar-timezone><![CDATA[BEGIN:VCALENDAR{eol}
+PRODID:-//Example Corp.//CalDAV Client//EN{eol}
+VERSION:2.0{eol}
+BEGIN:VTIMEZONE{eol}
+TZID:US-Eastern{eol}
+LAST-MODIFIED:19870101T000000Z{eol}
+BEGIN:STANDARD{eol}
+DTSTART:19671029T020000{eol}
+TZOFFSETTO:-0500{eol}
+TZOFFSETFROM:-0400{eol}
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10{eol}
+TZNAME:Eastern Standard Time (US & Canada){eol}
+END:STANDARD{eol}
+BEGIN:DAYLIGHT{eol}
+DTSTART:19870405T020000{eol}
+TZOFFSETTO:-0400{eol}
+TZOFFSETFROM:-0500{eol}
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4{eol}
+TZNAME:Eastern Daylight Time (US & Canada){eol}
+END:DAYLIGHT{eol}
+END:VTIMEZONE{eol}
+END:VCALENDAR{eol}
+]]></c:calendar-timezone>
+        </d:prop>
+    </d:set>
+</c:mkcalendar>
+"#, eol = "\r"),
+                );
+
+            then.status(201);
         });
 
         server

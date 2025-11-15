@@ -32,4 +32,57 @@ impl Home {
             )],
         ))
     }
+
+    pub fn new_calendar(&self, config: &crate::elements::Mkcalendar) -> crate::Result {
+        use webdav::ToXml as _;
+
+        self.mkcalendar(&self.url, &config.to_xml())
+    }
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn new_calendar() -> crate::Result {
+        let server = crate::test::server();
+
+        let client = crate::Client::new(server.url(""));
+        let mkcalendar = crate::elements::Mkcalendar {
+            name: "Lisa's Events".to_string(),
+            description: Some("Calendar restricted to events.".to_string()),
+            timezone: Some(crate::ical::vcalendar! {
+                prodid: "-//Example Corp.//CalDAV Client//EN",
+                version: "2.0",
+                timezones: [
+                    crate::ical::vtimezone! {
+                        tzid: "US-Eastern",
+                        last_modified: "19870101T000000Z",
+                        standard: [
+                            crate::ical::tz_standard! {
+                                dtstart: "19671029T020000",
+                                rrule: "FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10",
+                                tzoffsetfrom: "-0400",
+                                tzoffsetto: "-0500",
+                                tzname: ["Eastern Standard Time (US & Canada)"],
+                            }?,
+                        ],
+                        daylight: [
+                            crate::ical::tz_daylight! {
+                                dtstart: "19870405T020000",
+                                rrule: "FREQ=YEARLY;BYDAY=1SU;BYMONTH=4",
+                                tzoffsetfrom: "-0500",
+                                tzoffsetto: "-0400",
+                                tzname: ["Eastern Daylight Time (US & Canada)"],
+                            }?,
+                        ],
+                    }?,
+                ],
+            }?),
+            supported_components: vec![crate::ical::Components::Event],
+        };
+
+        assert!(client.new_calendar(&mkcalendar).is_ok());
+
+        Ok(())
+    }
 }

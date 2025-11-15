@@ -51,6 +51,12 @@ impl Client {
         home.calendars()
     }
 
+    pub fn new_calendar(&self, config: &crate::elements::Mkcalendar) -> crate::Result {
+        let home = self.home()?;
+
+        home.new_calendar(config)
+    }
+
     pub fn set_auth(&mut self, auth: Option<crate::Authorization>) {
         crate::Requestable::set_auth(self, auth)
     }
