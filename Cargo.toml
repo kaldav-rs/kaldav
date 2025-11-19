@@ -11,7 +11,7 @@ license = "MIT"
 repository = "https://github.com/kaldav-rs/kaldav"
 
 [dependencies]
-ikal = "0.4"
+ikal = "0.5"
 sxd-document = "0.3"
 sxd-xpath = "0.4"
 thiserror = "2.0"

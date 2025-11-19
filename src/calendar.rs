@@ -82,7 +82,7 @@ impl Calendar {
      */
     pub fn create<O: ikal::ser::Serialize>(&self, object: &O) -> crate::Result {
         let url = format!("{}/{}.ics", self.url, uuid::Uuid::now_v7());
-        let body = ikal::ser::ical(object)?;
+        let body = ikal::ser::ical(object);
         self.put(&url, Some(&body))?;
 
         Ok(())
