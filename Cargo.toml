@@ -3,7 +3,7 @@ members = [".", "derive"]
 
 [package]
 name = "kaldav"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Sanpi <sanpi@homecomputing.fr>"]
 edition = "2024"
 description = "Caldav client"
@@ -19,7 +19,7 @@ url = "2.0"
 webdav = "0.1"
 
 [dependencies.kaldav-derive]
-version = "0.2"
+version = "0.5"
 path = "derive"
 
 [dependencies.chrono]
