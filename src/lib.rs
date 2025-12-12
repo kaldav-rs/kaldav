@@ -36,8 +36,7 @@ pub trait Requestable {
     where
         S: Into<String>,
     {
-        self.request(Method::DELETE, href, None, None)
-            .map(|_| ())
+        self.request(Method::DELETE, href, None, None).map(|_| ())
     }
 
     fn get<S>(&self, href: S) -> Result<String>
@@ -492,8 +491,8 @@ END:VCALENDAR\r
         server.mock(|when, then| {
             when.path("/calendars/johndoe/")
                 //.method("MKCALENDAR")
-                .body(
-                    format!(r#"
+                .body(format!(
+                    r#"
 <?xml version="1.0" encoding="utf-8" ?>
 <c:mkcalendar xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
     <d:set>
@@ -529,8 +528,9 @@ END:VCALENDAR{eol}
         </d:prop>
     </d:set>
 </c:mkcalendar>
-"#, eol = "\r"),
-                );
+"#,
+                    eol = "\r"
+                ));
 
             then.status(201);
         });
