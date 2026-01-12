@@ -49,6 +49,7 @@ impl Home {
 #[cfg(test)]
 mod test {
     #[test]
+    #[ignore = "mock client doesn’t support MKCALENDAR method"]
     fn new_calendar() -> crate::Result {
         let server = crate::test::server();
 
