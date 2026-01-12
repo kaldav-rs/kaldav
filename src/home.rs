@@ -36,7 +36,12 @@ impl Home {
     pub fn new_calendar(&self, path: &str, config: &crate::elements::Mkcalendar) -> crate::Result {
         use webdav::ToXml as _;
 
-        let url = format!("{}/{path}", self.url);
+        let url = format!("{}{path}", self.url);
+
+        let mut config = config.clone();
+        if config.name.is_none() {
+            config.name = Some(path.to_string());
+        }
         self.mkcalendar(&url, &config.to_xml())
     }
 }
@@ -49,7 +54,7 @@ mod test {
 
         let client = crate::Client::new(server.url(""));
         let mkcalendar = crate::elements::Mkcalendar {
-            name: "Lisa's Events".to_string(),
+            name: Some("Lisa's Events".to_string()),
             description: Some("Calendar restricted to events.".to_string()),
             timezone: Some(crate::ical::vcalendar! {
                 prodid: "-//Example Corp.//CalDAV Client//EN",

@@ -1,6 +1,6 @@
-#[derive(Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Mkcalendar {
-    pub name: String,
+    pub name: Option<String>,
     pub description: Option<String>,
     pub timezone: Option<ikal::VCalendar>,
     pub supported_components: Vec<ikal::Components>,
@@ -31,12 +31,18 @@ impl webdav::ToXml for Mkcalendar {
         components.insert(0, "<c:supported-calendar-component-set>".to_string());
         components.push("</c:supported-calendar-component-set>".to_string());
 
+        let displayname = self
+            .name
+            .as_ref()
+            .map(|x| format!("<d:displayname><![CDATA[{x}]]></d:displayname>"))
+            .unwrap_or_default();
+
         let xml = format!(
             r#"<?xml version="1.0" encoding="utf-8" ?>
 <c:mkcalendar xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
     <d:set>
         <d:prop>
-            <d:displayname>{name}</d:displayname>
+            {displayname}
             {description}
             {components}
             {timezone}
@@ -44,7 +50,6 @@ impl webdav::ToXml for Mkcalendar {
     </d:set>
 </c:mkcalendar>
 "#,
-            name = self.name,
             components = components.join("\n")
         );
 
