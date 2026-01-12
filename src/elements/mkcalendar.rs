@@ -32,8 +32,7 @@ impl webdav::ToXml for Mkcalendar {
         components.push("</c:supported-calendar-component-set>".to_string());
 
         let xml = format!(
-            r#"
-<?xml version="1.0" encoding="utf-8" ?>
+            r#"<?xml version="1.0" encoding="utf-8" ?>
 <c:mkcalendar xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
     <d:set>
         <d:prop>

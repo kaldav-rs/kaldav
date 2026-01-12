@@ -489,11 +489,10 @@ END:VCALENDAR\r
         });
 
         server.mock(|when, then| {
-            when.path("/calendars/johndoe/")
+            when.path("/calendars/johndoe/events")
                 //.method("MKCALENDAR")
                 .body(format!(
-                    r#"
-<?xml version="1.0" encoding="utf-8" ?>
+                    r#"<?xml version="1.0" encoding="utf-8" ?>
 <c:mkcalendar xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
     <d:set>
         <d:prop>

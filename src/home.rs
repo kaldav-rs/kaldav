@@ -33,10 +33,11 @@ impl Home {
         ))
     }
 
-    pub fn new_calendar(&self, config: &crate::elements::Mkcalendar) -> crate::Result {
+    pub fn new_calendar(&self, path: &str, config: &crate::elements::Mkcalendar) -> crate::Result {
         use webdav::ToXml as _;
 
-        self.mkcalendar(&self.url, &config.to_xml())
+        let url = format!("{}/{path}", self.url);
+        self.mkcalendar(&url, &config.to_xml())
     }
 }
 
@@ -81,7 +82,7 @@ mod test {
             supported_components: vec![crate::ical::Components::Event],
         };
 
-        assert!(client.new_calendar(&mkcalendar).is_ok());
+        assert!(client.new_calendar("events", &mkcalendar).is_ok());
 
         Ok(())
     }
