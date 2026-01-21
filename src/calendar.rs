@@ -80,12 +80,15 @@ impl Calendar {
     /**
      * Create a new vcalendar object.
      */
-    pub fn create<O: ikal::ser::Serialize>(&self, object: &O) -> crate::Result {
+    pub fn create<O: ikal::ser::Serialize>(&self, object: &O) -> crate::Result<crate::Object> {
         let url = format!("{}/{}.ics", self.url, uuid::Uuid::now_v7());
         let body = ikal::ser::ical(object);
         self.put(&url, Some(&body))?;
 
-        Ok(())
+        let mut object = crate::Object::new(url, &Default::default());
+        object.set_auth(self.auth.clone());
+
+        Ok(object)
     }
 }
 
