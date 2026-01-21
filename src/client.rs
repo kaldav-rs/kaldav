@@ -51,7 +51,11 @@ impl Client {
         home.calendars()
     }
 
-    pub fn new_calendar(&self, path: &str, config: &crate::elements::Mkcalendar) -> crate::Result {
+    pub fn new_calendar(
+        &self,
+        path: &str,
+        config: &crate::elements::Mkcalendar,
+    ) -> crate::Result<crate::Calendar> {
         let home = self.home()?;
 
         home.new_calendar(path, config)

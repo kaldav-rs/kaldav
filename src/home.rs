@@ -33,7 +33,11 @@ impl Home {
         ))
     }
 
-    pub fn new_calendar(&self, path: &str, config: &crate::elements::Mkcalendar) -> crate::Result {
+    pub fn new_calendar(
+        &self,
+        path: &str,
+        config: &crate::elements::Mkcalendar,
+    ) -> crate::Result<crate::Calendar> {
         use webdav::ToXml as _;
 
         let url = format!("{}{path}", self.url);
@@ -42,7 +46,12 @@ impl Home {
         if config.name.is_none() {
             config.name = Some(path.to_string());
         }
-        self.mkcalendar(&url, &config.to_xml())
+        self.mkcalendar(&url, &config.to_xml())?;
+
+        let mut calendar = crate::Calendar::new(url, &Default::default());
+        calendar.set_auth(self.auth.clone());
+
+        Ok(calendar)
     }
 }
 
