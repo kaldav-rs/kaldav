@@ -245,7 +245,7 @@ impl webdav::ToXml for TextMatch {
 
         format!(
             "<c:text-match{collation}{negate_condition}><![CDATA[{}]]></c:text-match>",
-            &self.text
+            self.text
         )
     }
 }
