@@ -13,10 +13,12 @@ impl Iterator {
         }
     }
 
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.objects.is_empty()
     }
 
+    #[must_use]
     pub fn len(&self) -> usize {
         self.objects.len()
     }

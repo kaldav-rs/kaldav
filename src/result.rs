@@ -20,6 +20,7 @@ pub enum Error {
 }
 
 impl Error {
+    #[must_use]
     pub fn new(method: crate::Method, href: &str, response: attohttpc::Response) -> Self {
         Self::Request {
             method: method.to_string(),

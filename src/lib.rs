@@ -119,6 +119,7 @@ pub trait Requestable {
 pub trait Xmlable {
     fn url(&self) -> &str;
 
+    #[must_use]
     fn xml(xml: &str, xpath: &str) -> Vec<String> {
         let package = sxd_document::parser::parse(xml).unwrap();
         let document = package.as_document();

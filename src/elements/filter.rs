@@ -5,10 +5,12 @@ pub struct Filter {
 }
 
 impl Filter {
+    #[must_use]
     pub fn new() -> Self {
         Self::default()
     }
 
+    #[must_use]
     pub fn append(mut self, comp_filter: CompFilter) -> Self {
         self.comp_filter = Some(comp_filter);
 
@@ -31,6 +33,7 @@ pub struct CompFilter {
 }
 
 impl CompFilter {
+    #[must_use]
     pub fn new(name: &str) -> Self {
         Self {
             name: name.to_string(),
@@ -39,12 +42,14 @@ impl CompFilter {
         }
     }
 
+    #[must_use]
     pub fn append(mut self, comp_filter: Self) -> Self {
         self.children.push(Box::new(comp_filter));
 
         self
     }
 
+    #[must_use]
     pub fn is_not_defined(mut self, value: bool) -> Self {
         if value {
             self.is_not_defined = Some(IsNotDefined);
@@ -55,12 +60,14 @@ impl CompFilter {
         self
     }
 
+    #[must_use]
     pub fn prop_filter(mut self, prop_filter: PropFilter) -> Self {
         self.children.push(Box::new(prop_filter));
 
         self
     }
 
+    #[must_use]
     pub fn time_range(mut self, time_range: super::TimeRange) -> Self {
         self.children.push(Box::new(time_range));
 
@@ -92,6 +99,7 @@ pub struct PropFilter {
 }
 
 impl PropFilter {
+    #[must_use]
     pub fn new(name: &str) -> Self {
         Self {
             name: name.to_string(),
@@ -100,12 +108,14 @@ impl PropFilter {
         }
     }
 
+    #[must_use]
     pub fn append(mut self, param_filter: ParamFilter) -> Self {
         self.children.push(Box::new(param_filter));
 
         self
     }
 
+    #[must_use]
     pub fn is_not_defined(mut self, value: bool) -> Self {
         if value {
             self.is_not_defined = Some(IsNotDefined);
@@ -116,12 +126,14 @@ impl PropFilter {
         self
     }
 
+    #[must_use]
     pub fn text_match(mut self, text_match: TextMatch) -> Self {
         self.children.push(Box::new(text_match));
 
         self
     }
 
+    #[must_use]
     pub fn time_range(mut self, time_range: super::TimeRange) -> Self {
         self.children.push(Box::new(time_range));
 
@@ -152,6 +164,7 @@ pub struct ParamFilter {
 }
 
 impl ParamFilter {
+    #[must_use]
     pub fn new(name: &str) -> Self {
         Self {
             name: name.to_string(),
@@ -159,6 +172,7 @@ impl ParamFilter {
         }
     }
 
+    #[must_use]
     pub fn append<P: Param + 'static>(mut self, param: P) -> Self {
         self.params.push(Box::new(param));
 
@@ -203,6 +217,7 @@ pub struct TextMatch {
 }
 
 impl TextMatch {
+    #[must_use]
     pub fn new(text: &str) -> Self {
         Self {
             text: text.to_string(),
@@ -211,18 +226,21 @@ impl TextMatch {
         }
     }
 
+    #[must_use]
     pub fn collation(mut self, collation: &str) -> Self {
         self.collation = Some(collation.to_string());
 
         self
     }
 
+    #[must_use]
     pub fn negate_condition(mut self, value: bool) -> Self {
         self.negate_condition = value;
 
         self
     }
 
+    #[must_use]
     pub fn text(mut self, text: &str) -> Self {
         self.text = text.to_string();
 
