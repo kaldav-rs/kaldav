@@ -223,7 +223,7 @@ pub trait Children: Requestable + Xmlable {
                 let mut element = C::new(self.append_host(value.clone()), &params);
                 element.set_auth(self.auth());
 
-                map.insert(key.to_string(), element);
+                map.insert(key.clone(), element);
             }
         }
 
