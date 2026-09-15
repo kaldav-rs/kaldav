@@ -142,7 +142,7 @@ pub trait Xmlable {
         let mut results = vec![];
 
         if let sxd_xpath::Value::Nodeset(nodes) = nodes {
-            for node in nodes.iter() {
+            for node in &nodes {
                 results.push(String::from(node.text().unwrap().text()));
             }
         }
@@ -206,7 +206,7 @@ pub trait Children: Requestable + Xmlable {
         let keys = Self::xml(response, key_xpath);
 
         for key in keys {
-            let xkey = key.replace("\'", "&apos;");
+            let xkey = key.replace('\'', "&apos;");
 
             let xpath = value_xpath.replace("{}", xkey.as_str());
             let values = Self::xml(response, xpath.as_str());

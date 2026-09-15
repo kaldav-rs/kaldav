@@ -62,7 +62,7 @@ impl Client {
     }
 
     pub fn set_auth(&mut self, auth: Option<crate::Authorization>) {
-        crate::Requestable::set_auth(self, auth)
+        crate::Requestable::set_auth(self, auth);
     }
 }
 

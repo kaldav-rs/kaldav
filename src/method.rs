@@ -1,9 +1,9 @@
 pub struct Method(Inner);
 
 pub enum Inner {
-    /// https://datatracker.ietf.org/doc/html/rfc4791#section-5.3.1
+    /// <https://datatracker.ietf.org/doc/html/rfc4791#section-5.3.1>
     MkCalendar,
-    /// https://datatracker.ietf.org/doc/html/rfc3253#section-3.6
+    /// <https://datatracker.ietf.org/doc/html/rfc3253#section-3.6>
     Report,
     Webdav(webdav::Method),
 }

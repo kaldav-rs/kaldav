@@ -15,17 +15,15 @@ impl webdav::ToXml for TimeRange {
     fn to_xml(&self) -> String {
         let date_format = "%Y%m%dT%H%M%SZ";
 
-        let start = self
-            .start
-            .as_ref()
-            .map(|x| x.naive_utc().format(date_format).to_string())
-            .unwrap_or_else(|| "-infinity".to_string());
+        let start = self.start.as_ref().map_or_else(
+            || "-infinity".to_string(),
+            |x| x.naive_utc().format(date_format).to_string(),
+        );
 
-        let end = self
-            .end
-            .as_ref()
-            .map(|x| x.naive_utc().format(date_format).to_string())
-            .unwrap_or_else(|| "+infinity".to_string());
+        let end = self.end.as_ref().map_or_else(
+            || "+infinity".to_string(),
+            |x| x.naive_utc().format(date_format).to_string(),
+        );
 
         format!("<c:time-range start=\"{start}\" end=\"{end}\" />")
     }

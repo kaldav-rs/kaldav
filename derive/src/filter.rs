@@ -12,12 +12,10 @@ fn kaldav() -> proc_macro2::TokenStream {
     }
 }
 
-pub(crate) fn impl_macro(ast: &Map) -> syn::Result<proc_macro2::TokenStream> {
-    let body = quote::quote! {
+pub(crate) fn impl_macro(ast: &Map) -> proc_macro2::TokenStream {
+    quote::quote! {
         #ast
-    };
-
-    Ok(body)
+    }
 }
 
 #[derive(Clone, Debug)]

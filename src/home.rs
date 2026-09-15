@@ -48,7 +48,7 @@ impl Home {
         }
         self.mkcalendar(&url, &config.to_xml())?;
 
-        let mut calendar = crate::Calendar::new(url, &Default::default());
+        let mut calendar = crate::Calendar::new(url, &BTreeMap::default());
         calendar.set_auth(self.auth.clone());
 
         Ok(calendar)

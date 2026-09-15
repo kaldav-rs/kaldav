@@ -85,7 +85,7 @@ impl Calendar {
         let body = ikal::ser::ical(object);
         self.put(&url, Some(&body))?;
 
-        let mut object = crate::Object::new(url, &Default::default());
+        let mut object = crate::Object::new(url, &std::collections::BTreeMap::default());
         object.set_auth(self.auth.clone());
 
         Ok(object)

@@ -15,6 +15,5 @@ pub fn filter(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let ast = syn::parse(input).unwrap();
 
     filter::impl_macro(&ast)
-        .unwrap_or_else(syn::Error::into_compile_error)
         .into()
 }

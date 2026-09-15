@@ -186,8 +186,7 @@ impl webdav::ToXml for ParamFilter {
             .params
             .iter()
             .map(|x| x.to_xml())
-            .collect::<Vec<_>>()
-            .join("");
+            .collect::<String>();
 
         format!(
             "<c:param-filter name=\"{}\">{params}</c:param-filter>",
