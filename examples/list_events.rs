@@ -26,7 +26,7 @@ fn main() -> kaldav::Result {
     let calendars = client.calendars()?;
 
     for (name, calendar) in calendars {
-        println!("Calendar '{}'", name);
+        println!("Calendar '{name}'");
 
         let objects = calendar.events()?;
 
