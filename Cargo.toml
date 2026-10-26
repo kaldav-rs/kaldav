@@ -39,7 +39,7 @@ features = ["v7"]
 [dev-dependencies]
 env_logger = "0.11"
 log = "0.4"
-httpmock = "0.8"
+httpmock = "0.9"
 
 [dev-dependencies.clap]
 version = "4.0"
