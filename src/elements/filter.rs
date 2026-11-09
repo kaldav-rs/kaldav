@@ -182,11 +182,7 @@ impl ParamFilter {
 
 impl webdav::ToXml for ParamFilter {
     fn to_xml(&self) -> String {
-        let params = self
-            .params
-            .iter()
-            .map(|x| x.to_xml())
-            .collect::<String>();
+        let params = self.params.iter().map(|x| x.to_xml()).collect::<String>();
 
         format!(
             "<c:param-filter name=\"{}\">{params}</c:param-filter>",

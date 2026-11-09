@@ -14,6 +14,5 @@ pub fn object_derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream 
 pub fn filter(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let ast = syn::parse(input).unwrap();
 
-    filter::impl_macro(&ast)
-        .into()
+    filter::impl_macro(&ast).into()
 }
