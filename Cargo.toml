@@ -11,7 +11,8 @@ license = "MIT"
 repository = "https://github.com/kaldav-rs/kaldav"
 
 [dependencies]
-ikal = "0.5"
+ikal = "0.6"
+jiff = "1.0"
 sxd-document = "0.3"
 sxd-xpath = "0.4"
 thiserror = "2.0"
@@ -21,11 +22,6 @@ webdav = "0.1"
 [dependencies.kaldav-derive]
 version = "0.5"
 path = "derive"
-
-[dependencies.chrono]
-version = "0.4"
-default-features = false
-features = ["clock", "std"]
 
 [dependencies.attohttpc]
 version = "0.32"

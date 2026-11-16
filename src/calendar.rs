@@ -126,17 +126,15 @@ mod test {
         let client = crate::Client::new(server.url(""));
         let calendars = client.calendars()?;
         let calendar = calendars.get("Home calendar").unwrap();
-        let start = chrono::NaiveDate::from_ymd_opt(2023, 10, 28)
-            .unwrap()
-            .and_hms_opt(0, 0, 0)
-            .unwrap()
-            .and_utc();
+        let start = jiff::civil::date(2023, 10, 28)
+            .at(0, 0, 0, 0)
+            .to_zoned_datetime(jiff::tz::TimeZone::UTC);
 
         let filter = crate::filter! {
             CompFilter::new("VCALENDAR") {
                 CompFilter::new("VEVENT") {
                     time_range: TimeRange {
-                        start: Some(start),
+                        start: start.ok(),
                         end: None,
                     }
                 }

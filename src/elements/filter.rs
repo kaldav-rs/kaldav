@@ -359,13 +359,11 @@ mod test {
 
     #[test]
     fn time_range() {
-        use chrono::TimeZone as _;
-
         let filter = crate::filter! {
             CompFilter::new("VCALENDAR") {
                 CompFilter::new("VEVENT") {
                     time_range: TimeRange {
-                        start: chrono::Utc.with_ymd_and_hms(2006, 1, 4, 0, 0, 0).earliest(),
+                        start: jiff::civil::date(2006, 1, 4).at(0, 0, 0, 0).to_zoned_datetime(jiff::tz::TimeZone::UTC).ok(),
                         end: None,
                     }
                 }
