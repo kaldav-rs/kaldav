@@ -1,14 +1,21 @@
 [workspace]
 members = [".", "derive"]
 
-[package]
-name = "kaldav"
-version = "0.7.0"
+[workspace.package]
 authors = ["Sanpi <sanpi@homecomputing.fr>"]
 edition = "2024"
-description = "Caldav client"
 license = "MIT"
 repository = "https://github.com/kaldav-rs/kaldav"
+version = "0.7.0"
+
+[package]
+name = "kaldav"
+description = "Caldav client"
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
 
 [dependencies]
 ikal = "0.6"

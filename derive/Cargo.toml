@@ -1,11 +1,11 @@
 [package]
 name = "kaldav-derive"
-version = "0.5.0"
-authors = ["Sanpi <sanpi@homecomputing.fr>"]
-edition = "2024"
 description = "Proc macro for kaldav crate"
-license = "MIT"
-repository = "https://github.com/kaldav-rs/kaldav"
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
 
 [lib]
 proc-macro = true
